@@ -1,73 +1,80 @@
-# React + TypeScript + Vite
+# portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+실제 시장 데이터를 바탕으로 자산 배분 전략을 시각화하는 React 기반 포트폴리오 대시보드입니다. 자산 비중, 백테스트 성과, 위험 지표, 요약 해설을 한 화면에서 확인할 수 있도록 구성되어 있습니다.
 
-Currently, two official plugins are available:
+## 주요 기능
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- 자산군별 비중 시각화(Pie Chart)
+- 포트폴리오, S&P 500 비교 성과 차트
+- CAGR, YTD, MDD, 누적 수익률 요약
+- 용어 설명 툴팁 제공
+- 포트폴리오 해설 카드 UI
+- 실제 시장 데이터 기반 백테스트 계산 로직 포함
 
-## React Compiler
+## 기술 스택
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React 19
+- TypeScript
+- Vite
+- Tailwind CSS 4
+- Recharts
+- Framer Motion
+- Lucide React
+- clsx
+- tailwind-merge
 
-## Expanding the ESLint configuration
+## 프로젝트 구조
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```text
+src/
+├─ components/
+│  └─ InfoTooltip.tsx   # 용어 설명 툴팁
+├─ data/
+│  ├─ assets.ts         # 자산 비중 및 용어 정의
+│  ├─ market.ts         # 시장 데이터 원본
+│  └─ utils.ts          # 백테스트/지표 계산 함수
+├─ App.tsx              # 대시보드 메인 UI
+├─ main.tsx             # 앱 진입점
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 계산 지표
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+프로젝트에는 다음 지표 계산 로직이 포함되어 있습니다.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- **CAGR**: 연평균 수익률
+- **YTD**: 연초 대비 수익률
+- **MDD**: 최대 낙폭
+- **누적 수익률**: 시작 시점 대비 전체 수익률
+
+현재 포트폴리오 수익률은 `src/data/utils.ts`에서 가중치 기반으로 계산되는 데모 성격의 로직을 사용합니다.
+
+## 개발 환경 실행
+
+```bash
+pnpm install
+pnpm dev
 ```
+
+## 빌드
+
+```bash
+pnpm build
+```
+
+## 참고 사항
+
+- UI에 표시되는 마지막 업데이트 날짜는 현재 코드상 고정값입니다.
+- 데이터 소스 및 계산 로직을 확장하면 실제 투자 대시보드 형태로 발전시키기 좋습니다.
+- 현재 README 기준으로는 개인 실험/시각화 프로젝트 성격이 강합니다.
+
+## 개선 아이디어
+
+- 데이터 갱신 자동화
+- 벤치마크 자산 추가
+- 필터/기간 선택 기능
+- 모바일 최적화 세부 조정
+- 실제 거래 기록 연동
+
+## 라이선스
+
+별도 라이선스가 명시되어 있지 않다면 저장소 소유자의 정책을 따릅니다.
